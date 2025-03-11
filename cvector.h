@@ -7,8 +7,6 @@
 // =================================================================================
 #pragma once
 
-#include <stdexcept>
-#include <utility>
 #include <algorithm>
 #include <stdarg.h>
 

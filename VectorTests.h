@@ -7,6 +7,7 @@
 #pragma once
 
 #include "cvector.h"
+#include <string>
 
 class VectorTests
 {
