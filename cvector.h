@@ -53,16 +53,16 @@ public:
     inline       T& operator[](index i) { return data_[i]; }    // v[i] = x
     inline const T& operator[](index i) const { return data_[i]; }    // x = v[i]
 
-    bool            operator==(const cvector<T>& rhs) const;
+    bool        operator==(const cvector<T>& rhs) const;
     cvector<T>& operator=(const cvector<T>& rhs);
     cvector<T>& operator=(cvector<T>&& rhs) noexcept;
     cvector<T>& operator=(std::initializer_list<T> list);
 
 
     // iterators
-    inline T* begin() { return data_; }
+    inline T*       begin()                       { return data_; }
     inline const T* begin()                 const { return data_; }
-    inline T* end() { return data_ + size_; }
+    inline T*       end()                         { return data_ + size_; }
     inline const T* end()                   const { return data_ + size_; }
 
 
@@ -304,7 +304,7 @@ cvector<T>& cvector<T>::operator=(std::initializer_list<T> list)
 
 
 // =================================================================================
-//                               shift elements
+//                           get data by indices
 // =================================================================================
 template <typename T>
 inline void cvector<T>::get_data_by_idxs(
@@ -741,7 +741,6 @@ void cvector<T>::binary_search(const T* values, vsize numElems, cvector<bool>& f
     for (index i = 0; i < numElems; ++i)
         flags[i] = std::binary_search(b + i, e, values[i]);
 }
-
 
 
 // =================================================================================
