@@ -114,6 +114,7 @@ public:
     bool binary_search(const T& value) const;
     bool binary_search(const cvector<T>& vSrc) const;
     bool binary_search(const T* values, const vsize numElems) const;
+    void binary_search(const T* values, vsize numElems, cvector<bool>& flags) const;
 
 
     // allocators
@@ -680,8 +681,8 @@ bool cvector<T>::binary_search(const cvector<T>& values) const
     const T* b = begin();
     const T* e = end();
 
-    for (const T& val : values)
-        isExist &= std::binary_search(b, e, val);
+    for (index i = 0; i < values.size(); ++i)
+        isExist &= std::binary_search(b + i, e, values[i]);
 
     return isExist;
 }
@@ -692,7 +693,7 @@ template <typename T>
 bool cvector<T>::binary_search(const T* values, const vsize numElems) const
 {
     // NOTE: your (*this) cvector must be SORTED!
-    // check if each value from the input raw arrays exists in the current cvector
+    // check if each value from the input raw array exists in the current cvector
 
     if constexpr (ENABLE_CHECK)
     {
@@ -707,11 +708,40 @@ bool cvector<T>::binary_search(const T* values, const vsize numElems) const
     const T* b = begin();
     const T* e = end();
 
-    for (int i = 0; i < numElems; ++i)
-        isExist &= std::binary_search(b, e, values[i]);
+    for (index i = 0; i < numElems; ++i)
+        isExist &= std::binary_search(b + i, e, values[i]);
 
     return isExist;
 }
+
+// ----------------------------------------------------
+
+template <typename T>
+void cvector<T>::binary_search(const T* values, vsize numElems, cvector<bool>& flags) const
+{
+    // NOTE: your (*this) cvector must be SORTED!
+    // check if each value from the input raw array exists and put responsible boolean-flag into output array
+    //
+    // out: flags -- array of existing flags
+
+    if constexpr (ENABLE_CHECK)
+    {
+        if ((values == nullptr) | (numElems < 0))
+        {
+            error_msg("invalid input args", CALLER_INFO);
+            return;
+        }
+    }
+
+    const T* b = begin();
+    const T* e = end();
+
+    flags.resize(numElems);
+
+    for (index i = 0; i < numElems; ++i)
+        flags[i] = std::binary_search(b + i, e, values[i]);
+}
+
 
 
 // =================================================================================
